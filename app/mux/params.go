@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/lcaballero/kublai/app/settings"
 	"net/http"
+	"github.com/lcaballero/kublai/app/handlers"
 )
 
 // Params represent the most common parametrs to a function capable
@@ -13,6 +14,7 @@ type Params interface {
 	Request() *http.Request
 	Settings() settings.Settings
 	Store() sessions.Store
+	Appender() chan *handlers.PubEvent
 	Session() (*sessions.Session, error)
 	SessionName() string
 	TemporaryRedirect(path string) error
@@ -57,4 +59,7 @@ func (p *params) TemporaryRedirect(path string) error {
 		http.StatusTemporaryRedirect,
 	)
 	return EndedByRedirect
+}
+func (p *params) Appender() chan *handlers.PubEvent {
+	return nil
 }
