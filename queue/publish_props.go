@@ -7,18 +7,18 @@ package queue
 // added for tracking.  For instance and ID and a timestamp
 // describing when the event was received.
 type PublishProps struct {
-	PublisherID   int32
-	Type          int32
-	PayloadSize   int32
-	Payload       []byte
+	PublisherID int32
+	Topic       int32
+	PayloadSize int32
+	Payload     []byte
 }
 
 // ID is created by the application and the timestamp represents when
 // the event was received.
 type InternalProps struct {
-	Id            int32
-	Roll          int32    // Indicates log roll the entry came from
-	Timestamp     int64
+	Id        int32
+	Roll      int32 // Indicates log roll the entry came from
+	Timestamp int64
 }
 
 // TransitionProps capture the state of processing that the event has

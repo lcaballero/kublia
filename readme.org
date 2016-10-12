@@ -1,0 +1,7 @@
+* Introduction
+
+  `kublia` is a minimal messaging queue written in Go.  It let's you
+  publish and subscribe to streams of records.  In this respect it's
+  similar to messaging queues such as RabbitMQ, or other enterprise
+  messaging systems.  However, it reies firmly on HTTP.
+

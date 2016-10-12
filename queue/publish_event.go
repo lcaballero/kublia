@@ -5,7 +5,7 @@ import (
 )
 
 // PublishEvent represents the header for a single publishing event
-// while the api might only require the Type, PublisherId, PayloadSize
+// while the api might only require the Topic, PublisherId, PayloadSize
 // and Payload itself.
 type PublishEvent struct {
 	PublishProps
