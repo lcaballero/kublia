@@ -1,26 +1,37 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/lcaballero/kublai/app/settings"
+	"github.com/lcaballero/kublai/app/web"
 	"github.com/lcaballero/kublai/cli"
-	"github.com/lcaballero/kublai/queue"
+	"github.com/lcaballero/kublai/conf"
+	"github.com/lcaballero/kublai/shared"
 	"os"
+	"github.com/lcaballero/kublai/tools/pub"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
-	conf := cli.ParseArgs(os.Args...)
-	bin, err := json.MarshalIndent(conf, "", "  ")
+	config := cli.ParseArgs(os.Args...)
+	shared.ShowJsonOrPanic(config, nil)
+
+	keys, err := conf.LoadKeys(config.DeployedTo)
+	shared.ShowJsonOrPanic(keys, err)
+
+	st, err := settings.NewSettings(config, keys)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(string(bin))
-	fmt.Printf("%v %v %v %v %v\n",
-		queue.Received,
-		queue.Published,
-		queue.Completed,
-		queue.ReadyForArchive,
-		queue.ProcessingError,
-	)
+
+	ws, err := web.NewWebServer(st)
+	if err != nil {
+		panic(err)
+	}
+
+	if config.Command == "pub" {
+		pub.Publish()
+	} else {
+		fmt.Println("starting web server")
+		ws.Start()
+	}
 }
